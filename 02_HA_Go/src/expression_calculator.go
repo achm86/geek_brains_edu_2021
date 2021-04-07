@@ -3,67 +3,15 @@
 	and calculates it via Inverse Polish notation approach.
 	Acceptable numbers are at most 32-bit integers.
 	If result overflows, this will be reported to the output.
-	2021-04-06 & Alexander Chumachenko
+	2021-04-06 & [achm86 aka acmdeu]
 ******************************************************************/
 
 package main
 
 import (
-	"errors"
 	"fmt"
-	"os"
 	"strconv"
 )
-
-const input_file string = ".//inputs//input.txt"
-const max_expression_length int64 = 512
-
-func get_file_size(filepath string) (int64, error) {
-
-	// get file stats
-	file, err := os.Stat(filepath)
-	if err != nil {
-		return 0, err
-	}
-
-	// get the size
-	return file.Size(), nil
-}
-
-func check_input(input_path string) error {
-	// check file and it's size: not more than limit and more than zero
-	size, err := get_file_size(input_path)
-	if err != nil {
-		return err
-	}
-	if size > max_expression_length {
-		return errors.New("expressions longer than 512 characters are not supported")
-	}
-	if size == 0 {
-		return errors.New("file is empty")
-	}
-	// if all checks passed - return nil == no_error
-	return nil
-}
-
-func read_data(input_path string) (string, error) {
-	// open file
-	file, err := os.Open(input_path)
-	if err != nil {
-		return "", err
-	}
-
-	// allocate memory and read the data
-	data := make([]byte, max_expression_length)
-	len, err := file.Read(data)
-	if err != nil {
-		return "", err
-	}
-
-	// construct resulting string and return
-	result := string(data[:len])
-	return result, nil
-}
 
 func read_expression(input_path string) (string, error) {
 
@@ -78,7 +26,12 @@ func read_expression(input_path string) (string, error) {
 }
 
 func evaluate_expression(expression string) (int, error) {
-	return 0, nil
+	rpn, err := transform_to_rpn(expression)
+	if err != nil {
+		return 0, err
+	}
+	val, err := evaluate_rpn(rpn)
+	return val, err
 }
 
 func main() {
