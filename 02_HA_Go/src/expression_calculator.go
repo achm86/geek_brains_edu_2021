@@ -30,6 +30,11 @@ func evaluate_expression(expression string) (int, error) {
 	if err != nil {
 		return 0, err
 	}
+	fmt.Println("Reverse Polish notation for a given expression is : ")
+	for i := 0; i < len(rpn); i++ {
+		fmt.Print(rpn[i] + " ")
+	}
+	fmt.Println("")
 	val, err := evaluate_rpn(rpn)
 	return val, err
 }
