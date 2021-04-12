@@ -4,11 +4,11 @@ import java.io.FileNotFoundException;
 
 public class Main {
 
-    private static final String in_file_name = "inputs//input.txt";
+    private static final String inFileName = "inputs//input.txt";
 
     public static void main(String[] args) {
         try {
-            ExpressionContext appContext = new ExpressionContext(in_file_name);
+            ExpressionContext appContext = new ExpressionContext(inFileName);
             appContext.Run();
         } catch (Exception e) {
             e.printStackTrace();

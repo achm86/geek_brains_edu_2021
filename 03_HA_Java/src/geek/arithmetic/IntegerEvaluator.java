@@ -6,7 +6,7 @@ class IntegerEvaluator implements ExpressionEvaluator {
 
     @Override
     public Tuple2<Double, ExpressionError> EvaluateExpression(String expression) {
-        Tuple2<Vector<ExpressionToken>, ExpressionError> rpn = parseExpression(expression);
+        Tuple2<Vector<ExpressionToken>, ExpressionError> rpn = constructRPN(expression);
         if (rpn.getError() != null)
             return new Tuple2<>(0.0, rpn.getError());
 
@@ -16,10 +16,10 @@ class IntegerEvaluator implements ExpressionEvaluator {
             expressionRPN += rpn.getValue().elementAt(i).toString() + " ";
 
         System.out.println("Expression RPN is : '" + expressionRPN + "'");
-        return evaluateExpression(rpn.getValue());
+        return evaluateRPN(rpn.getValue());
     }
 
-    private Tuple2<Double, ExpressionError> evaluateExpression(Vector<ExpressionToken> tokens) {
+    private Tuple2<Double, ExpressionError> evaluateRPN(Vector<ExpressionToken> tokens) {
         Vector<Integer> values = new Vector<>();
         for(int i = 0; i < tokens.size(); ++i) {
             if (tokens.elementAt(i).getType() == ExpressionToken.ExpressionType.Operation) {
@@ -54,7 +54,7 @@ class IntegerEvaluator implements ExpressionEvaluator {
         return new Tuple2<>(1.0 * values.elementAt(0), null);
     }
 
-    private Tuple2<Vector<ExpressionToken>, ExpressionError> parseExpression(String expression) {
+    private Tuple2<Vector<ExpressionToken>, ExpressionError> constructRPN(String expression) {
         Vector<ExpressionToken> tokens = new Vector<>();
         Vector<Character> operationStack = new Vector<>();
         String number = "";
