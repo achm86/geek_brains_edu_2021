@@ -15,14 +15,15 @@ public class ExpressionContext {
         while(readResult.getError() ==  InputReader.InputErrorType.NoError) {
             // NOTE: here we just assume/hardcode integer expression type here
             // later solution could be extended to other types, when more precision or else is needed
-            EvaluatorsFactory.ExpressionType type = EvaluatorsFactory.ExpressionType.Integer;
+            EvaluatorsFactory.ExpressionPrecision type = EvaluatorsFactory.ExpressionPrecision.Integer;
 
             // get evaluator and calculate expression value
             ExpressionEvaluator evaluator = EvaluatorsFactory.getEvaluator(type);
-            double expressionValue = evaluator.EvaluateExpression(readResult.getValue());
+            Tuple2<Double, ExpressionError> expressionValue = evaluator.EvaluateExpression(readResult.getValue());
 
             // print result to the console
-            System.out.println("Expression " + readResult.getValue() + " value is : " + String.valueOf(expressionValue));
+            System.out.println("Expression " + readResult.getValue() + " value is : " + String.valueOf(expressionValue.getValue()));
+            readResult = reader.getLine();
         }
     }
 }

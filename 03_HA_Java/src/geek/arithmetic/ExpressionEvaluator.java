@@ -1,9 +1,6 @@
 package geek.arithmetic;
 
-import jdk.jshell.spi.ExecutionControl;
-
-import java.util.HashMap;
-
 public interface ExpressionEvaluator {
-    public double EvaluateExpression(String expression);
+    public enum EvaluatorErrorType {NoError, Format, Ca}
+    public Tuple2<Double, ExpressionError> EvaluateExpression(String expression);
 }

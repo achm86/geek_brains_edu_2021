@@ -36,8 +36,10 @@ class InputReader {
         try {
             result = reader.readLine();
         } catch (EOFException eof) {
-            return new Tuple2<>("", InputErrorType.EOF);
+            return new Tuple2<>(null, InputErrorType.EOF);
         }
+        if (result == null || result.length() == 0)
+            return new Tuple2<>(null, InputErrorType.EOF);
         return new Tuple2<>(result, InputErrorType.NoError);
     }
 }
