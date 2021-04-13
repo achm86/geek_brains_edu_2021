@@ -22,11 +22,10 @@ class IntegerEvaluator implements ExpressionEvaluator {
     private Tuple2<Vector<ExpressionToken>, ExpressionError> constructRPN(String expression) {
         Vector<ExpressionToken> tokens = new Vector<>();
         Vector<Character> operationStack = new Vector<>();
-        String number = "";
 
         // remove spaces in input
         expression = expression.replaceAll("\\s+","");
-
+        String number = "";
         for(int i = 0; i < expression.length(); ++i) {
             if (isDigit(expression.charAt(i))) {
                 number += expression.charAt(i);
