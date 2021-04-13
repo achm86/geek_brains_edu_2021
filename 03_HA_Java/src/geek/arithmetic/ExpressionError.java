@@ -11,7 +11,4 @@ public class ExpressionError {
     public String toString() {
         return error;
     }
-    public boolean noError() {
-        return error == null;
-    }
 }
