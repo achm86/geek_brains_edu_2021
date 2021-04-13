@@ -24,7 +24,7 @@ class IntegerEvaluator implements ExpressionEvaluator {
         Vector<Character> operationStack = new Vector<>();
 
         // remove spaces in input
-        expression = expression.replaceAll("\\s+","");
+        expression = expression.replaceAll("\\s+|\\t+","");
         String number = "";
         for(int i = 0; i < expression.length(); ++i) {
             if (isDigit(expression.charAt(i))) {
@@ -56,16 +56,16 @@ class IntegerEvaluator implements ExpressionEvaluator {
         for(int i = 0; i < tokens.size(); ++i) {
             if (tokens.elementAt(i).getType() == ExpressionToken.ExpressionType.Operation) {
                 if (values.size() < 2)
-                    return new Tuple2<>(0.0, new ExpressionError("incorrect expression format"));
+                    return new Tuple2<>(null, new ExpressionError("incorrect expression format"));
 
                 // get both parts of operation and apply it
                 int lhs = values.elementAt(values.size() - 2);
                 int rhs = values.elementAt(values.size() - 1);
-                Tuple2<Integer, ExpressionError> result = ExpressionOperation.applyOperation(lhs, rhs, (ExpressionOperation)tokens.elementAt(i));
+                Tuple2<Integer, ExpressionError> result = ((ExpressionOperation)tokens.elementAt(i)).applyOperation(lhs, rhs);
 
                 // check operation error if any
                 if (result.getError() != null)
-                    return new Tuple2<>(0.0, result.getError());
+                    return new Tuple2<>(null, result.getError());
 
                 // remove lhs and rhs from values stack
                 for (int j = 0; j < 2; ++j)
@@ -81,7 +81,7 @@ class IntegerEvaluator implements ExpressionEvaluator {
         }
 
         if (values.size() != 1)
-            return new Tuple2<>(0.0, new ExpressionError("incorrect expression format"));
+            return new Tuple2<>(null, new ExpressionError("incorrect expression format"));
 
         return new Tuple2<>(1.0 * values.elementAt(0), null);
     }
