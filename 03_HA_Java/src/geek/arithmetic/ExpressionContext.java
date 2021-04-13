@@ -19,10 +19,13 @@ public class ExpressionContext {
 
             // get evaluator and calculate expression value
             ExpressionEvaluator evaluator = EvaluatorsFactory.getEvaluator(type);
-            Tuple2<Double, ExpressionError> expressionValue = evaluator.EvaluateExpression(readResult.getValue());
+            Tuple2<Double, ExpressionError> expressionResult = evaluator.EvaluateExpression(readResult.getValue());
 
-            // print result to the console
-            System.out.println("Expression " + readResult.getValue() + " value is : " + String.valueOf(expressionValue.getValue()));
+            if (expressionResult.getError() != null)
+                System.out.println("Expression " + readResult.getValue() + " was not evaluated due to error : " + expressionResult.getError().toString());
+            else
+                System.out.println("Expression " + readResult.getValue() + " value is : " + String.valueOf(expressionResult.getValue()));
+
             readResult = reader.getLine();
         }
     }
