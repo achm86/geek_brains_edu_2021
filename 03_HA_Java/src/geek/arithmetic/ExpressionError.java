@@ -8,7 +8,10 @@ public class ExpressionError {
     String getValue() {
         return error;
     }
-    boolean noError() {
+    public String toString() {
+        return error;
+    }
+    public boolean noError() {
         return error == null;
     }
 }
